@@ -6,6 +6,7 @@ const API_URL = process.env.REACT_APP_API_URL;
 export default function App() {
   const intervalRef = useRef(null);
   const [ativo, setAtivo] = useState('');
+  const [conectado, setConectado] = useState(false);
 
   const enviarComando = async (comando) => {
     try {
@@ -29,6 +30,24 @@ export default function App() {
     }
     setAtivo('');
   };
+
+  useEffect(() => {
+    const verificarStatus = async () => {
+      try {
+      const res = await fetch(`${API_URL}/status`);
+      const text = await res.text();
+      const status = text.trim().toUpperCase();
+      console.log('Status recebido:', status);
+      setConectado(status === 'ONLINE');
+      } catch (error) {
+      console.error('Erro ao verificar status:', error);
+      setConectado(false);
+      }
+      };
+    verificarStatus();
+    const interval = setInterval(verificarStatus, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     const keyDownHandler = (e) => {
@@ -70,6 +89,20 @@ export default function App() {
             by LC SISTEMAS
           </a>
         </h1>
+        <div className="status-indicador">
+          <span>Status:</span>
+          <span
+            className="bolinha"
+            style={{
+              display: 'inline-block',
+              marginLeft: 8,
+              width: 14,
+              height: 14,
+              borderRadius: '50%',
+              backgroundColor: conectado ? 'green' : 'red'
+            }}
+          ></span>
+        </div>
       </header>
 
       <div className="container">
