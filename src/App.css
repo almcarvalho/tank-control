@@ -1,114 +1,96 @@
+/* App.css */
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #1b1f23;
+  color: white;
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+}
+
+.topo {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.topo h1 a {
+  color: #61dafb;
+  text-decoration: none;
+}
+
+.status-indicador {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+}
+
 .container {
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  padding: 20px;
-  background-color: #f5f5f5;
-  }
-  
-  @media (min-width: 768px) {
-  .container {
-  flex-direction: row;
-  justify-content: space-between;
   align-items: center;
-  }
-  }
-  
-  .controles {
+}
+
+.controles {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
-  flex: 1;
-  }
-  
-  .linha-meio {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  }
-  
-  .botao {
-  padding: 20px;
-  font-size: 24px;
-  background-color: #3498db;
-  color: white;
-  border: none;
-  border-radius: 50%;
-  cursor: pointer;
-  }
-  
-  .status {
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  display: inline-block;
-  }
-  
-  .status.verde {
-  background-color: #2ecc71;
-  }
-  
-  .status.cinza {
-  background-color: #ccc;
-  }
-  
-  .camera {
+  margin-bottom: 1.5rem;
+}
+
+.linha-meio {
   display: flex;
   justify-content: center;
-  align-items: center;
-  flex: 1;
-  margin-top: 30px;
-  }
-  
-  @media (min-width: 768px) {
-  .camera {
-  margin-top: 0;
-  }
-  }
-  
-  .video {
-  border: 2px solid #000;
-  border-radius: 10px;
-  }
+  margin: 0.5rem 0;
+}
 
-  .botao.ativo {
-    background-color: #2ecc71;
-    }
+.botao {
+  background-color: #333;
+  color: white;
+  font-size: 2rem;
+  width: 80px;
+  height: 80px;
+  margin: 0.25rem;
+  border: 2px solid #555;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: 0.2s ease-in-out;
+}
 
-    .extras {
-      position: absolute;
-      right: 20px;
-      top: 120px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      }
-      .extra-botao {
-      padding: 12px 20px;
-      background-color: #444;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      font-size: 16px;
-      cursor: pointer;
-      }
+.botao.ativo {
+  background-color: #61dafb;
+  color: black;
+}
 
+.extras {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  max-width: 600px;
+}
 
-      .extra-botao {
-        background-color: #ccc;
-        padding: 10px 20px;
-        margin: 5px;
-        font-size: 14px;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-      }
-      .extra-botao.vermelho {
-        background-color: #e74c3c;
-        color: white;
-      }
-      .extra-botao.ativo {
-        outline: 2px solid black;
-      }
-      
+.extra-botao {
+  padding: 0.5rem 1rem;
+  background-color: #444;
+  border: 2px solid #666;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  transition: 0.2s ease-in-out;
+  font-size: 0.9rem;
+}
+
+.extra-botao.ativo {
+  background-color: #ffa726;
+  border-color: #ff9800;
+}
+
+.extra-botao.vermelho.ativo {
+  background-color: #e53935;
+  border-color: #c62828;
+}
