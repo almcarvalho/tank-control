@@ -7,6 +7,7 @@ export default function App() {
   const intervalRef = useRef(null);
   const [ativo, setAtivo] = useState('');
   const [conectado, setConectado] = useState(false);
+  const [timestamp, setTimestamp] = useState(Date.now());
 
   const enviarComando = async (comando) => {
     try {
@@ -34,16 +35,16 @@ export default function App() {
   useEffect(() => {
     const verificarStatus = async () => {
       try {
-      const res = await fetch(`${API_URL}/status`);
-      const text = await res.text();
-      const status = text.trim().toUpperCase();
-      console.log('Status recebido:', status);
-      setConectado(status === 'ONLINE');
+        const res = await fetch(`${API_URL}/status`);
+        const text = await res.text();
+        const status = text.trim().toUpperCase();
+        console.log('Status recebido:', status);
+        setConectado(status === 'ONLINE');
       } catch (error) {
-      console.error('Erro ao verificar status:', error);
-      setConectado(false);
+        console.error('Erro ao verificar status:', error);
+        setConectado(false);
       }
-      };
+    };
     verificarStatus();
     const interval = setInterval(verificarStatus, 1000);
     return () => clearInterval(interval);
@@ -76,6 +77,12 @@ export default function App() {
     };
   }, [ativo]);
 
+  // Atualiza a imagem da câmera a cada 5 segundos
+  useEffect(() => {
+    const interval = setInterval(() => setTimestamp(Date.now()), 5000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <div className="page">
       <header className="topo">
@@ -105,8 +112,8 @@ export default function App() {
         </div>
       </header>
 
-      <div className="container">
-        <div className="controles">
+      <div className="container" style={{ display: 'flex', alignItems: 'center', gap: '40px' }}>
+        <div className="controles" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <button
             onMouseDown={() => iniciarEnvio('frente')}
             onMouseUp={pararEnvio}
@@ -115,7 +122,7 @@ export default function App() {
           >
             ⬆️
           </button>
-          <div className="linha-meio">
+          <div className="linha-meio" style={{ display: 'flex', gap: '20px', justifyContent: 'center', marginTop: 10, marginBottom: 10 }}>
             <button
               onMouseDown={() => iniciarEnvio('esquerda')}
               onMouseUp={pararEnvio}
@@ -143,64 +150,76 @@ export default function App() {
           </button>
         </div>
 
-        <div className="extras">
-          <button
-            onMouseDown={() => iniciarEnvio('farol')}
-            onMouseUp={pararEnvio}
-            onMouseLeave={pararEnvio}
-            className={`extra-botao ${ativo === 'farol' ? 'ativo' : ''}`}
-          >
-            Farol (F)
-          </button>
-          <button
-            onMouseDown={() => iniciarEnvio('buzina')}
-            onMouseUp={pararEnvio}
-            onMouseLeave={pararEnvio}
-            className={`extra-botao ${ativo === 'buzina' ? 'ativo' : ''}`}
-          >
-            Buzina (B)
-          </button>
-          <button
-            onMouseDown={() => iniciarEnvio('canhao-cima')}
-            onMouseUp={pararEnvio}
-            onMouseLeave={pararEnvio}
-            className={`extra-botao ${ativo === 'canhao-cima' ? 'ativo' : ''}`}
-          >
-            Canhão Cima (I)
-          </button>
-          <button
-            onMouseDown={() => iniciarEnvio('canhao-baixo')}
-            onMouseUp={pararEnvio}
-            onMouseLeave={pararEnvio}
-            className={`extra-botao ${ativo === 'canhao-baixo' ? 'ativo' : ''}`}
-          >
-            Canhão Baixo (K)
-          </button>
-          <button
-            onMouseDown={() => iniciarEnvio('canhao-esquerda')}
-            onMouseUp={pararEnvio}
-            onMouseLeave={pararEnvio}
-            className={`extra-botao ${ativo === 'canhao-esquerda' ? 'ativo' : ''}`}
-          >
-            Canhão Esquerda (J)
-          </button>
-          <button
-            onMouseDown={() => iniciarEnvio('canhao-direita')}
-            onMouseUp={pararEnvio}
-            onMouseLeave={pararEnvio}
-            className={`extra-botao ${ativo === 'canhao-direita' ? 'ativo' : ''}`}
-          >
-            Canhão Direita (L)
-          </button>
-          <button
-            onMouseDown={() => iniciarEnvio('fire')}
-            onMouseUp={pararEnvio}
-            onMouseLeave={pararEnvio}
-            className={`extra-botao vermelho ${ativo === 'fire' ? 'ativo' : ''}`}
-          >
-            Canhão Atirar (P)
-          </button>
-        </div>
+        <img
+          src={`${API_URL}/camera.jpg?t=${timestamp}`}
+          alt="Imagem da câmera"
+          style={{
+            width: 320,
+            height: 240,
+            border: '2px solid #ccc',
+            borderRadius: 8,
+            objectFit: 'cover'
+          }}
+        />
+      </div>
+
+      <div className="extras">
+        <button
+          onMouseDown={() => iniciarEnvio('farol')}
+          onMouseUp={pararEnvio}
+          onMouseLeave={pararEnvio}
+          className={`extra-botao ${ativo === 'farol' ? 'ativo' : ''}`}
+        >
+          Farol (F)
+        </button>
+        <button
+          onMouseDown={() => iniciarEnvio('buzina')}
+          onMouseUp={pararEnvio}
+          onMouseLeave={pararEnvio}
+          className={`extra-botao ${ativo === 'buzina' ? 'ativo' : ''}`}
+        >
+          Buzina (B)
+        </button>
+        <button
+          onMouseDown={() => iniciarEnvio('canhao-cima')}
+          onMouseUp={pararEnvio}
+          onMouseLeave={pararEnvio}
+          className={`extra-botao ${ativo === 'canhao-cima' ? 'ativo' : ''}`}
+        >
+          Canhão Cima (I)
+        </button>
+        <button
+          onMouseDown={() => iniciarEnvio('canhao-baixo')}
+          onMouseUp={pararEnvio}
+          onMouseLeave={pararEnvio}
+          className={`extra-botao ${ativo === 'canhao-baixo' ? 'ativo' : ''}`}
+        >
+          Canhão Baixo (K)
+        </button>
+        <button
+          onMouseDown={() => iniciarEnvio('canhao-esquerda')}
+          onMouseUp={pararEnvio}
+          onMouseLeave={pararEnvio}
+          className={`extra-botao ${ativo === 'canhao-esquerda' ? 'ativo' : ''}`}
+        >
+          Canhão Esquerda (J)
+        </button>
+        <button
+          onMouseDown={() => iniciarEnvio('canhao-direita')}
+          onMouseUp={pararEnvio}
+          onMouseLeave={pararEnvio}
+          className={`extra-botao ${ativo === 'canhao-direita' ? 'ativo' : ''}`}
+        >
+          Canhão Direita (L)
+        </button>
+        <button
+          onMouseDown={() => iniciarEnvio('fire')}
+          onMouseUp={pararEnvio}
+          onMouseLeave={pararEnvio}
+          className={`extra-botao vermelho ${ativo === 'fire' ? 'ativo' : ''}`}
+        >
+          Canhão Atirar (P)
+        </button>
       </div>
     </div>
   );
