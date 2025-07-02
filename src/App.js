@@ -151,7 +151,7 @@ export default function App() {
         </div>
 
         <img
-          src={`${API_URL}/camera.jpg?t=${timestamp}`}
+          src={`${API_URL}/camera?t=${timestamp}`}
           alt="Imagem da câmera"
           style={{
             width: 320,
