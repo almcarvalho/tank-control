@@ -79,7 +79,7 @@ export default function App() {
 
   // Atualiza a imagem da câmera a cada 5 segundos
   useEffect(() => {
-    const interval = setInterval(() => setTimestamp(Date.now()), 5000);
+    const interval = setInterval(() => setTimestamp(Date.now()), 1000);
     return () => clearInterval(interval);
   }, []);
 
